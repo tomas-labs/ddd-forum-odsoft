@@ -1,0 +1,44 @@
+plugins {
+  id "com.github.node-gradle.node" version "7.0.0"
+}
+
+task build2(type: Exec) {
+  commandLine 'npm', 'run', 'build'
+}
+
+task installNpm(type: Exec) {
+  commandLine 'npm', 'install'
+}
+
+task build(dependsOn: 'installNpm') {
+  doLast {
+    exec {
+        commandLine 'npx', 'rimraf', './dist', '&&', 'tsc'
+    }
+    println 'Build Done!'
+  }
+}
+
+task docsGeneration(type: Exec) {
+  commandLine 'jsdoc', '-c', 'jsdoc.json'
+}
+
+task pumlGeneration(type: Exec) {
+  commandLine 'sh', 'bin/generate-plantuml-diagrams.sh'
+}
+
+task runAPITestsWithCoverage(type: Exec) {
+  commandLine 'npm', 'run', 'testApiWithCoverage'
+}
+
+task runApiTests(type: Exec) {
+  commandLine 'npm', 'run', 'testApi'
+}
+
+task runUnitTests(type: Exec) {
+  commandLine 'npm', 'run', 'testUnit'
+}
+
+task runUnitTestsWithCoverage(type: Exec) {
+  commandLine 'npm', 'run', 'testUnitWithCoverage'
+}
